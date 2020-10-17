@@ -6,12 +6,13 @@ ENTRY(_start)
 MEMORY {
     cart_trampoline (rx) : org = 0x02000f00, l = 0x40
     cart_main (rx) : org = 0x02020000, l = 0x20000
-    work_low (rwx) : org = 0x200000, l = 0x100000
+    /* stay above the Satiator's load region, and below the AR's */
+    work_low (rwx) : org = 0x220000, l = 0x0e0000
 }
 
 SECTIONS {
     .trampoline : {
-        out/trampoline.o
+        KEEP(out/trampoline.o)
     } >cart_trampoline
 
     .cart_header : {
