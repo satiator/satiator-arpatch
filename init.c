@@ -31,6 +31,8 @@ int is_satiator_present(void) {
 
 void boot_satiator(void) {
     s_mode(s_api);
+    for (volatile int i=0; i<2000; i++)
+        ;
     int fd = s_open("menu.bin", FA_READ);
     s_seek(fd, 0x1000, C_SEEK_SET);
     uint8_t *dest = (void*)0x200000;
