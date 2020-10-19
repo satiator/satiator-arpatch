@@ -25,7 +25,6 @@ int is_satiator_present(void) {
     const cmd_t cmd_auth = {0xe000, 0x0001, 0, 0};
     exec_cmd(cmd_auth, HIRQ_MPED);
 
-    const cmd_t cmd_info = {0x0100, 0, 0, 0};
     exec_cmd(cmd_info, 0);
     return (CDB_REG_CR3 & 0xff) == 3;
 }
