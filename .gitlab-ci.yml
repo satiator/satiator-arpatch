@@ -1,4 +1,5 @@
 build:
+    stage: build
     tags:
         - c2-maker
     script:
