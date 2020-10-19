@@ -7,7 +7,7 @@ more:
                 mov.w   r3, @r0
                 add     #2, r0
                 add     #2, r1
-                cmp/hs     r2, r0
+                cmp/hi     r2, r0
                 bf      more
                 nop
                 mov.l   start, r0

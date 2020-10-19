@@ -16,6 +16,10 @@ SECTIONS {
     } >cart_trampoline
 
     .cart_header : {
+        KEEP(*(.header))
+
+        out/rom.o
+        out/ar_original_trampoline.o
 
         __load_from = .;
     } >cart_main
@@ -28,6 +32,7 @@ SECTIONS {
         *(.rodata.*);
         *(.data);
         *(.data.*);
+        . = ALIGN(4);
         __load_end = .;
         *(.bss);
         *(.bss.*);

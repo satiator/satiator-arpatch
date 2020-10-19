@@ -1,4 +1,4 @@
-OBJECTS := trampoline.o init.o ar_original_trampoline.o
+OBJECTS := trampoline.o init.o ar_original_trampoline.o satiator.o rom.o pad.o
 
 OBJFILES := $(addprefix out/, $(OBJECTS))
 
