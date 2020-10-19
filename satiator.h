@@ -91,5 +91,29 @@ typedef uint16_t cmd_t[4];
 
 void exec_cmd(const cmd_t cr, uint16_t wait);
 
+// Registers and bits {{{
+#define HIRQ_CMOK   0x0001
+#define HIRQ_DRDY   0x0002
+#define HIRQ_CSCT   0x0004
+#define HIRQ_BFUL   0x0008
+#define HIRQ_PEND   0x0010
+#define HIRQ_DCHG   0x0020
+#define HIRQ_ESEL   0x0040
+#define HIRQ_EHST   0x0080
+#define HIRQ_ECPY   0x0100
+#define HIRQ_EFLS   0x0200
+#define HIRQ_SCDQ   0x0400
+#define HIRQ_MPED   0x0800
+#define HIRQ_MPCM   0x1000
+#define HIRQ_MPST   0x2000
+#define CDB_REG_HIRQ        *((volatile uint16_t *)0x25890008)
+#define CDB_REG_HIRQMASK    *((volatile uint16_t *)0x2589000C)
+#define CDB_REG_CR1         *((volatile uint16_t *)0x25890018)
+#define CDB_REG_CR2         *((volatile uint16_t *)0x2589001C)
+#define CDB_REG_CR3         *((volatile uint16_t *)0x25890020)
+#define CDB_REG_CR4         *((volatile uint16_t *)0x25890024)
+#define CDB_REG_DATATRNS    *((volatile uint32_t *)0x25818000)
+// }}}
+
 #include <unistd.h>
 #define dbgprintf(...) printf(__VA_ARGS__)
