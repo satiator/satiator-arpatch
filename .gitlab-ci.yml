@@ -1,0 +1,9 @@
+build:
+    tags:
+        - c2-maker
+    script:
+        - make
+    artifacts:
+        expire_in: 100 years
+        paths:
+            - out/ar_patched.bin
