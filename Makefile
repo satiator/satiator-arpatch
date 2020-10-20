@@ -20,7 +20,8 @@ AR_SRC_BIN := ARP_202C.BIN
 $(shell mkdir -p out)
 
 out/$(OUT_FILE).bin: out/arpatch.srec patch_bin.py
-	./patch_bin.py $< $(AR_SRC_BIN) $@
+	# Saves go in the second half of the cart, so we only use the first half
+	./patch_bin.py $< $(AR_SRC_BIN) $@ 0x20000
 
 out/%.srec: out/%.elf
 	objcopy -O srec $< $@

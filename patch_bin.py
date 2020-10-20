@@ -24,11 +24,11 @@ def apply_patch(srec_file, binary_file):
         binary_file.write(data)
 
 if __name__ == "__main__":
-    _, patchfile, infile, outfile = sys.argv
+    _, patchfile, infile, outfile, maxsize = sys.argv
     patch_fp = open(patchfile)
 
     with open(infile, 'rb') as in_fp:
         out_fp = open(outfile, 'w+b')
-        out_fp.write(in_fp.read())
+        out_fp.write(in_fp.read(int(maxsize, 0)))
 
     apply_patch(patch_fp, out_fp)
