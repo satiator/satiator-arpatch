@@ -6,6 +6,9 @@ CROSS_COMPILE ?= sh-none-elf-
 
 CFLAGS := -fno-PIC -no-pie -Wall -ggdb -O2 -m2 -nostdlib -ffunction-sections -fdata-sections -ffreestanding
 
+VERSION ?= $(shell git describe --always --dirty --match aotsrintsoierats) $(shell date +%y%m%d%H%M%S)
+CFLAGS += -DVERSION='"$(VERSION)"'
+
 CC := $(CROSS_COMPILE)gcc
 LD := $(CROSS_COMPILE)ld
 

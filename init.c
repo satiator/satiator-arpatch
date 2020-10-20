@@ -75,3 +75,10 @@ void boot(void) {
         boot_ar();
     }
 }
+
+satiator_zone_header_t __attribute__((section(".header"))) header = {
+    .signature = "SatiatorCart",
+    .header_version = 0,
+    .version_str = VERSION,
+    .bootcode = boot_ar,
+};

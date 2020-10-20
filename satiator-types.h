@@ -79,15 +79,12 @@ typedef struct {
 // Satiator zone descriptor header
 // All offsets are relative to the start of this header
 typedef struct {
-    uint8_t signature[12];   // ASCII: "SatiatorCart"
+    uint8_t signature[12];  // ASCII: "SatiatorCart"
+    int32_t header_version; // 0 for this struct
+    uint8_t version_str[32];// ASCII
 
     // Jumping to this address should be equivalent to booting the cart directly
     void (*bootcode)(void);
-
-    // Flash that can be rewritten by the Satiator for trampolines, etc.
-    int32_t available_flash_start_offset;
-    uint32_t available_flash_size;  // bytes
-
 } __attribute__((packed)) satiator_zone_header_t;
 
 #endif // _SATISFIER_H
