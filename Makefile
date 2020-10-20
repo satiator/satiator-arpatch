@@ -6,8 +6,11 @@ CROSS_COMPILE ?= sh-none-elf-
 
 CFLAGS := -fno-PIC -no-pie -Wall -ggdb -O2 -m2 -nostdlib -ffunction-sections -fdata-sections -ffreestanding
 
-VERSION ?= $(shell git describe --exact-match --tags || (echo -n git-; git describe --always --dirty)) $(shell date +%y%m%d%H%M%S)
-CFLAGS += -DVERSION='"$(VERSION)"'
+VERSION ?= $(shell git describe --exact-match --tags --dirty || (echo -n git-; git describe --always --dirty))
+VERSION_STR ?= $(VERSION) $(shell date +%y%m%d%H%M%S)
+CFLAGS += -DVERSION='"$(VERSION_STR)"'
+
+OUT_FILE=ar_patched-$(VERSION)
 
 CC := $(CROSS_COMPILE)gcc
 LD := $(CROSS_COMPILE)ld
@@ -16,7 +19,7 @@ AR_SRC_BIN := ARP_202C.BIN
 
 $(shell mkdir -p out)
 
-out/ar_patched.bin: out/arpatch.srec patch_bin.py
+out/$(OUT_FILE).bin: out/arpatch.srec patch_bin.py
 	./patch_bin.py $< $(AR_SRC_BIN) $@
 
 out/%.srec: out/%.elf
