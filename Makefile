@@ -14,6 +14,7 @@ OUT_FILE=ar_patched-$(VERSION)
 
 CC := $(CROSS_COMPILE)gcc
 LD := $(CROSS_COMPILE)ld
+OBJCOPY := $(CROSS_COMPILE)objcopy
 
 AR_SRC_BIN := ARP_202C.BIN
 
@@ -24,7 +25,7 @@ out/$(OUT_FILE).bin: out/arpatch.srec patch_bin.py
 	./patch_bin.py $< $(AR_SRC_BIN) $@ 0x20000
 
 out/%.srec: out/%.elf
-	objcopy -O srec $< $@
+	$(OBJCOPY) -O srec $< $@
 
 out/arpatch.elf: $(OBJFILES)
 	$(LD) -Tarpatch.ld -Map=out/arpatch.map --gc-sections -o $@ $^
