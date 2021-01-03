@@ -27,7 +27,7 @@ out/$(OUT_FILE).bin: out/arpatch.srec patch_bin.py
 out/%.srec: out/%.elf
 	$(OBJCOPY) -O srec $< $@
 
-out/arpatch.elf: $(OBJFILES)
+out/arpatch.elf: $(OBJFILES) arpatch.ld
 	$(LD) -Tarpatch.ld -Map=out/arpatch.map --gc-sections -o $@ $^
 
 out/ar_original_trampoline.o: $(AR_SRC_BIN)
