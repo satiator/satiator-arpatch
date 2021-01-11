@@ -5,7 +5,19 @@
 #define SMPC_REG_OREG(o)        *((volatile uint8_t *)0x20100021+((o) * 2))
 #define SMPC_REG_SF             *((volatile uint8_t *)0x20100063)
 
+#define SMPC_CMD_SSHOFF             0x03
 #define SMPC_CMD_INTBACK			0x10
+
+void stop_slave_sh2(void) {
+    while (SMPC_REG_SF & 0x1)
+        ;
+
+    SMPC_REG_SF = 1;
+    SMPC_REG_COMREG = SMPC_CMD_SSHOFF;
+
+    while (SMPC_REG_SF & 0x1)
+        ;
+}
 
 int pad_read(void) {
     while (SMPC_REG_SF & 0x1)

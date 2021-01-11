@@ -18,22 +18,22 @@ SECTIONS {
     .cart_header : {
         KEEP(*(.header))
 
-        out/rom.o
-        out/ar_original_trampoline.o
+        *(.text);
+        *(.text.*);
+        *(.rodata);
+        *(.rodata.*);
 
+        . = ALIGN(4);
         __load_from = .;
     } >cart_main
 
     .ram : AT(__load_from) {
         __load_start = .;
-        *(.text);
-        *(.text.*);
-        *(.rodata);
-        *(.rodata.*);
         *(.data);
         *(.data.*);
         . = ALIGN(4);
         __load_end = .;
+
         *(.bss);
         *(.bss.*);
         *(COMMON);

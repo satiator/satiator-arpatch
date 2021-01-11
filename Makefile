@@ -1,4 +1,4 @@
-OBJECTS := trampoline.o init.o ar_original_trampoline.o satiator.o rom.o pad.o
+OBJECTS := trampoline.o init.o ar_original_trampoline.o satiator.o pad.o
 
 OBJFILES := $(addprefix out/, $(OBJECTS))
 
@@ -27,8 +27,8 @@ out/$(OUT_FILE).bin: out/arpatch.srec patch_bin.py
 out/%.srec: out/%.elf
 	$(OBJCOPY) -O srec $< $@
 
-out/arpatch.elf: $(OBJFILES) arpatch.ld
-	$(LD) -Tarpatch.ld -Map=out/arpatch.map --gc-sections -o $@ $^
+out/arpatch.elf: arpatch.ld $(OBJFILES)
+	$(LD) -Map=out/arpatch.map --gc-sections -o $@ -T$^
 
 out/ar_original_trampoline.o: $(AR_SRC_BIN)
 	dd if=$< of=out/ar_original_trampoline.bin bs=1 skip=3840 count=68

@@ -14,6 +14,14 @@ void start(void) {
     boot();
 }
 
+void *memcpy(void *dst, const void *src, size_t n) {
+    uint8_t *d = dst;
+    const uint8_t *s = src;
+    while (n--)
+        *d++ = *s++;
+    return dst;
+}
+
 
 int is_satiator_present(void) {
     const cmd_t cmd_info = {0x0100, 0, 0, 0};
@@ -45,12 +53,26 @@ void boot_satiator(void) {
     ((void(*)(void))0x200000)();
 }
 
-void *memcpy(void *dst, const void *src, size_t n) {
-    uint8_t *d = dst;
-    const uint8_t *s = src;
-    while (n--)
-        *d++ = *s++;
-    return dst;
+void reset_to_satiator(void) {
+    asm volatile (
+        "mov    #0xf0, r0   \n\t"
+        "ldc    r0, sr      \n\t"
+        : : : "r0"
+    );
+
+    stop_slave_sh2();
+
+    boot_satiator();
+}
+
+extern const uint8_t binary_out_ar_original_trampoline_bin_start, binary_out_ar_original_trampoline_bin_end;
+
+void boot_ar(void) {
+    // These are the offsets from the original AR code at 0x02000f00
+    memcpy((void*)0x280000, (void*)0x02000f00, 0x10000);
+    // restore the original data too
+    memcpy((void*)0x280f00, &binary_out_ar_original_trampoline_bin_start, &binary_out_ar_original_trampoline_bin_end - &binary_out_ar_original_trampoline_bin_start);
+    ((void(*)(void))0x288bec)();
 }
 
 size_t strlen(const char *src) {
@@ -60,7 +82,6 @@ size_t strlen(const char *src) {
     return n;
 }
 
-void boot_ar(void);
 int pad_read(void);
 
 void boot(void) {
