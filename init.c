@@ -41,18 +41,14 @@ void boot_satiator(void) {
     s_mode(s_api);
     for (volatile int i=0; i<2000; i++)
         ;
-    int fd = s_open("menu.bin", FA_READ);
-    s_seek(fd, 0x1000, C_SEEK_SET);
-    uint8_t *dest = (void*)0x200000;
-    uint8_t *end = dest + 0x1000;
-    while (dest < end) {
-        s_read(fd, dest, S_MAXBUF);
-        dest += S_MAXBUF;
-    }
+
+    int (**bios_get_mpeg_rom)(uint32_t index, uint32_t size, uint32_t addr) = (void*)0x06000298;
+    int ret = (*bios_get_mpeg_rom)(2, 2, 0x200000);
 
     ((void(*)(void))0x200000)();
 }
 
+void stop_slave_sh2(void);
 void reset_to_satiator(void) {
     asm volatile (
         "mov    #0xf0, r0   \n\t"
@@ -97,9 +93,12 @@ void boot(void) {
     }
 }
 
+void hook_install(void);
+
 satiator_zone_header_t __attribute__((section(".header"))) header = {
     .signature = "SatiatorCart",
-    .header_version = 0,
+    .header_version = 1,
     .version_str = VERSION,
     .bootcode = boot_ar,
+    .install_soft_reset_hook = hook_install,
 };
