@@ -16,6 +16,8 @@ SECTIONS {
     } >cart_trampoline
 
     .cart_header : {
+        /* header must be aligned to 0x100 */
+        . = ALIGN(0x100);
         KEEP(*(.header))
 
         *(.text);
