@@ -1,0 +1,5 @@
+# v3 2020-01-13
+
+## Added
+
+- Return-to-Satiator hook. This supports A+B+C+Start resetting, and needs corresponding new versions of the menu and Satiator firmware.
