@@ -8,3 +8,13 @@ build:
         expire_in: 100 years
         paths:
             - out/ar_patched-*.bin
+
+deploy:
+    stage: deploy
+    only:
+      - /^\d+$/
+    tags:
+        - c2-maker
+    script:
+      - 'ln -sf out/ar_patched-*.bin ar_patched-latest.bin'
+      - 'rsync -l out/ar_patched-*.bin ar_patched-latest.bin CHANGELOG web-deploy@info.satiator.net:firmware/'
